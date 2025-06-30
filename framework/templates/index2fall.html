@@ -1,0 +1,532 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="en">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;   <title>视频展示页面</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <style>&ndash;&gt;-->
+<!--&lt;!&ndash;        nav {&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #333;&ndash;&gt;-->
+<!--&lt;!&ndash;            overflow: hidden;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        nav ul {&ndash;&gt;-->
+<!--&lt;!&ndash;            list-style-type: none;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 0;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 0;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        nav li {&ndash;&gt;-->
+<!--&lt;!&ndash;            float: left;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        nav a {&ndash;&gt;-->
+<!--&lt;!&ndash;            display: block;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: white;&ndash;&gt;-->
+<!--&lt;!&ndash;            text-align: center;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 14px 16px;&ndash;&gt;-->
+<!--&lt;!&ndash;            text-decoration: none;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        nav a:hover {&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #111;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        input[type=submit] {&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #333;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: #fff;&ndash;&gt;-->
+<!--&lt;!&ndash;            border: none;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 10px 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;            cursor: pointer;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        input[type=submit]:hover {&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #555;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;    <nav>&ndash;&gt;-->
+<!--&lt;!&ndash;        <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="homepage.html">首页</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="#">个人主页</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="#">vip增值服务</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="#">关于我们</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="#">联系我们</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;    </nav>&ndash;&gt;-->
+<!--&lt;!&ndash;    <h1>视频结果展示页面</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <video id="myVideo" width="320" height="240" controls>&ndash;&gt;-->
+<!--&lt;!&ndash;            <source src='../static/uploaded_videos/{{ filename }}' type="video/mp4" >&ndash;&gt;-->
+<!--&lt;!&ndash;        </video>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <video id="workedvideo" width="320" height="240" controls>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            <source src='../static/worked_videos/worked.mp4' type="video/mp4" >&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        </video>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <a href="{{ url_for('upload_video') }}">上传视频</a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>视频展示页面</title>
+    <style>
+        body {
+            background-image: url('../static/images/nishui.jpg');
+            background-size: cover; /* 背景图覆盖整个页面 */
+            background-position: center; /* 背景图居中 */
+            font-family: 'Arial', sans-serif; /* 设置字体 */
+            color: white; /* 文字颜色 */
+            margin: 0;
+            padding: 0;
+            position: relative; /* 确保背景图在内容上方 */
+            display:none;
+        }
+
+        /* 半透明遮罩层，确保完全覆盖背景 */
+        body::before {
+            content: '';
+            position: fixed; /* 使遮罩固定不动 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* 覆盖整个页面 */
+            background: rgba(0, 0, 0, 0.4); /* 黑色背景，透明度40% */
+            z-index: -1; /* 确保遮罩层在背景图下方 */
+        }
+
+  /* 响应式导航栏设计 */
+        nav {
+            background-color: rgba(51, 51, 51, 0.7); /* 半透明背景 */
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav li {
+            display: inline-block;
+        }
+
+        nav a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #111;
+        }
+        input[type=submit] {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: #555;
+        }
+        /* 确保页面内容不被固定导航栏遮挡 */
+        main {
+            padding-top: 80px; /* 调整页面内容顶部间距 */
+        }
+        /* 简化标题设计 */
+        h1 {
+            text-align: center;
+            font-size: 3.5em; /* 调整字号 */
+            margin-top: 40px;
+            font-weight: bold; /* 让标题加粗 */
+            color: #fff; /* 使用纯白色 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 轻微的文字阴影 */
+        }
+
+                /* 半透明遮罩层，确保完全覆盖背景 */
+        body::before {
+            content: '';
+            position: fixed; /* 使遮罩固定不动 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* 覆盖整个页面 */
+            background: rgba(0, 0, 0, 0.4); /* 黑色背景，透明度40% */
+            z-index: -1; /* 确保遮罩层在背景图下方 */
+        }
+
+        img {
+            max-width: 45%;
+            max-height: 90vh;
+        }
+
+                /* 按钮容器，设置水平排列 */
+        .button-container {
+            display: flex;
+            justify-content: center; /* 中心对齐 */
+            gap: 30px; /* 按钮之间的间隔 */
+            margin-top: 20px; /* 按钮的顶部间距 */
+        }
+
+        .submit-button {
+            display: block;
+            width: 200px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景色 */
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            transform: translateX(15px); /* 通过transform右移10个像素 */
+        }
+
+
+        .submit-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-button:active {
+            transform: scale(0.95);
+        }
+        /* 视频预览容器，设置大小与上传按钮相同 */
+        /* 视频元素样式 */
+        #myVideo {
+            width: 400px; /* 设置视频预览容器宽度与上传按钮一致 */
+            height: 360px; /* 设置视频预览容器高度与上传按钮一致 */
+            border-radius: 15px; /* 同样的圆角效果 */
+            object-fit: cover; /* 保证视频填满容器 */
+        }
+        .video-container {
+            display: flex; /* 启用flexbox布局 */
+            justify-content: center; /* 水平居中对齐 */
+            float: left;
+
+            margin-top: 20px; /* 上边距 */
+            padding-left: 200px;
+        }
+        /* 容器样式 */
+        .image-container {
+            display: flex; /* 使用Flexbox布局 */
+            flex-direction: column; /* 垂直排列图片 */
+            justify-content: center; /* 在容器内垂直居中 */
+            align-items: center; /* 水平居中所有图片 */
+            height: 400px; /* 容器占满视口的高度 */
+            margin: 0; /* 去掉默认的外边距 */
+        }
+
+        /* 图片样式 */
+        .image-item {
+            width: 400px; /* 设置图片宽度 */
+            height: auto; /* 保持图片比例 */
+            margin: 10px 0; /* 图片之间的垂直间距 */
+            object-fit: cover; /* 确保图片在框内填满并保持比例 */
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('homepage')}}">首页</a></li>
+            <li><a href="#">个人主页</a></li>
+            <li><a href="#">vip增值服务</a></li>
+            <li><a href="#">关于我们</a></li>
+            <li><a href="#">联系我们</a></li>
+            <li style="float: right;"><a href="#">登出</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>视频结果展示页面</h1>
+        <div class="video-container">
+            <video id="myVideo" controls>
+                <source src='../static/uploaded_videos/{{ video_filename }}' type="video/mp4" >
+            </video>
+    <!--        <video id="workedvideo" width="320" height="240" controls>-->
+    <!--            <source src='../static/worked_videos/worked.mp4' type="video/mp4" >-->
+    <!--        </video>-->
+        </div>
+    <!--    <a href="{{ url_for('upload_video') }}">上传视频</a>-->
+<!--        <div class="image-container">-->
+<!--            <img src="../static/worked_videos/nishui1.png" id="image-display" alt="Image 1" class="image-item">-->
+<!--            <div class="button-container">-->
+<!--                <button class="submit-button" onclick="changeImage()" >下一张图片</button>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="image-container">
+            <img src="{{ frames[0].processed }}" id="image-display" alt="Image 1" class="image-item">
+            <div class="button-container">
+                <button class="submit-button" onclick="changeImage()">下一张图片</button>
+            </div>
+        </div>
+        <div class="button-container">
+            <a href="{{ url_for('upload_video')}}"><button class="submit-button">返回上传视频页面</button></a>
+        </div>
+
+    </main>
+
+<script>
+    let currentIndex = 0;
+    const frames = JSON.parse('{{ frames|tojson|safe }}'); // 将 Python 的 frame_list 转为 JavaScript 对象
+
+    function changeImage() {
+        currentIndex = (currentIndex + 1) % frames.length; // 使用 frames.length 确保循环
+        const imageElement = document.getElementById("image-display");
+        imageElement.src = frames[currentIndex].processed; // 根据 frames 更新图像
+    }
+</script>
+    <script>
+        // 使用 setTimeout 延迟 0.5 秒显示页面内容
+        setTimeout(function() {
+            document.body.style.display = 'block';  // 延迟 0.5 秒后显示内容
+        }, 1);  // 500 毫秒延迟
+    </script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="zh-CN">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>视频分析结果</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            background-image: url('../static/images/nishui.jpg');-->
+<!--            background-size: cover;-->
+<!--            background-position: center;-->
+<!--            font-family: 'Arial', sans-serif;-->
+<!--            color: white;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            position: relative;-->
+<!--            min-height: 100vh;-->
+<!--        }-->
+
+<!--        body::before {-->
+<!--            content: '';-->
+<!--            position: fixed;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            background: rgba(0, 0, 0, 0.6);-->
+<!--            z-index: -1;-->
+<!--        }-->
+
+<!--        nav {-->
+<!--            background-color: rgba(51, 51, 51, 0.8);-->
+<!--            overflow: hidden;-->
+<!--            position: fixed;-->
+<!--            width: 100%;-->
+<!--            top: 0;-->
+<!--            z-index: 100;-->
+<!--            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);-->
+<!--        }-->
+
+<!--        nav ul {-->
+<!--            list-style-type: none;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        nav li {-->
+<!--            display: inline-block;-->
+<!--        }-->
+
+<!--        nav a {-->
+<!--            display: block;-->
+<!--            color: white;-->
+<!--            text-align: center;-->
+<!--            padding: 14px 16px;-->
+<!--            text-decoration: none;-->
+<!--            transition: background-color 0.3s;-->
+<!--        }-->
+
+<!--        nav a:hover {-->
+<!--            background-color: rgba(17, 17, 17, 0.9);-->
+<!--        }-->
+
+<!--        main {-->
+<!--            padding: 100px 20px 40px;-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--        }-->
+
+<!--        h1 {-->
+<!--            text-align: center;-->
+<!--            font-size: 2.5em;-->
+<!--            margin-bottom: 30px;-->
+<!--            color: #fff;-->
+<!--            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);-->
+<!--            padding-bottom: 15px;-->
+<!--            border-bottom: 1px solid rgba(255, 255, 255, 0.2);-->
+<!--        }-->
+
+<!--        .video-container {-->
+<!--            background: rgba(0, 0, 0, 0.5);-->
+<!--            border-radius: 10px;-->
+<!--            padding: 20px;-->
+<!--            margin-bottom: 30px;-->
+<!--            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);-->
+<!--        }-->
+
+<!--        .video-player {-->
+<!--            width: 100%;-->
+<!--            max-height: 500px;-->
+<!--            border-radius: 8px;-->
+<!--            display: block;-->
+<!--            margin: 0 auto;-->
+<!--        }-->
+
+<!--        .results-title {-->
+<!--            font-size: 1.8em;-->
+<!--            margin: 30px 0 20px;-->
+<!--            text-align: center;-->
+<!--            color: #fff;-->
+<!--        }-->
+
+<!--        .frames-grid {-->
+<!--            display: grid;-->
+<!--            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));-->
+<!--            gap: 20px;-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+
+<!--        .frame-card {-->
+<!--            background: rgba(0, 0, 0, 0.5);-->
+<!--            border-radius: 8px;-->
+<!--            overflow: hidden;-->
+<!--            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);-->
+<!--            transition: transform 0.3s, box-shadow 0.3s;-->
+<!--        }-->
+
+<!--        .frame-card:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);-->
+<!--        }-->
+
+<!--        .frame-image {-->
+<!--            width: 100%;-->
+<!--            height: 200px;-->
+<!--            object-fit: cover;-->
+<!--            border-bottom: 1px solid rgba(255, 255, 255, 0.1);-->
+<!--        }-->
+
+<!--        .frame-info {-->
+<!--            padding: 15px;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        .frame-number {-->
+<!--            font-weight: bold;-->
+<!--            font-size: 1.1em;-->
+<!--            margin-bottom: 5px;-->
+<!--        }-->
+
+<!--        .button-container {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            margin-top: 40px;-->
+<!--        }-->
+
+<!--        .action-button {-->
+<!--            background: rgba(0, 119, 182, 0.8);-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            padding: 12px 30px;-->
+<!--            font-size: 1.1em;-->
+<!--            border-radius: 30px;-->
+<!--            cursor: pointer;-->
+<!--            transition: all 0.3s;-->
+<!--            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);-->
+<!--            text-decoration: none;-->
+<!--        }-->
+
+<!--        .action-button:hover {-->
+<!--            background: rgba(0, 119, 182, 1);-->
+<!--            transform: translateY(-2px);-->
+<!--            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .frames-grid {-->
+<!--                grid-template-columns: 1fr;-->
+<!--            }-->
+
+<!--            h1 {-->
+<!--                font-size: 2em;-->
+<!--            }-->
+
+<!--            main {-->
+<!--                padding: 80px 15px 30px;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <nav>-->
+<!--        <ul>-->
+<!--            <li><a href="{{ url_for('homepage') }}">首页</a></li>-->
+<!--            <li><a href="#">个人主页</a></li>-->
+<!--            <li><a href="#">VIP增值服务</a></li>-->
+<!--            <li><a href="#">关于我们</a></li>-->
+<!--            <li><a href="#">联系我们</a></li>-->
+<!--            <li style="float: right;"><a href="#">登出</a></li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+
+<!--    <main>-->
+<!--        <h1>视频分析结果</h1>-->
+
+<!--        <div class="video-container">-->
+<!--            <h2>原始视频</h2>-->
+<!--            <video class="video-player" controls>-->
+<!--                <source src="{{ url_for('static', filename='uploaded_videos/' + video_filename) }}" type="video/mp4">-->
+<!--                您的浏览器不支持视频播放-->
+<!--            </video>-->
+<!--        </div>-->
+
+<!--        <h2 class="results-title">分析结果 (共 {{ frames|length }} 帧)</h2>-->
+
+<!--        <div class="frames-grid">-->
+<!--            {% for frame in frames %}-->
+<!--            <div class="frame-card">-->
+<!--                <img src="{{ frame.processed }}" alt="分析结果帧 {{ frame.frame_num }}" class="frame-image">-->
+<!--                <div class="frame-info">-->
+<!--                    <div class="frame-number">第 {{ frame.frame_num }} 帧分析结果</div>-->
+<!--                    &lt;!&ndash; 可以在这里添加更多分析信息 &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+
+<!--        <div class="button-container">-->
+<!--            <a href="{{ url_for('upload_video') }}" class="action-button">返回上传视频页面</a>-->
+<!--        </div>-->
+<!--    </main>-->
+
+<!--    <script>-->
+<!--        // 页面加载动画-->
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+<!--            document.body.style.opacity = '0';-->
+<!--            setTimeout(function() {-->
+<!--                document.body.style.transition = 'opacity 0.5s ease';-->
+<!--                document.body.style.opacity = '1';-->
+<!--            }, 100);-->
+<!--        });-->
+<!--    </script>-->
+<!--</body>-->
+<!--</html>-->

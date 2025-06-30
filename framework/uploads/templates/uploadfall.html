@@ -1,0 +1,518 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>图片上传</title>-->
+<!--    <style>-->
+<!--        /* 设置背景图并淡化 */-->
+<!--        body {-->
+<!--            background-image: url('../static/images/shuaidao.jpg');-->
+<!--            background-size: cover; /* 背景图覆盖整个页面 */-->
+<!--            background-position: center; /* 背景图居中 */-->
+<!--            font-family: 'Arial', sans-serif; /* 设置字体 */-->
+<!--            color: white; /* 文字颜色 */-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            position: relative; /* 确保背景图在内容上方 */-->
+<!--        }-->
+
+<!--        /* 半透明遮罩层，确保完全覆盖背景 */-->
+<!--        body::before {-->
+<!--            content: '';-->
+<!--            position: fixed; /* 使遮罩固定不动 */-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%; /* 覆盖整个页面 */-->
+<!--            background: rgba(0, 0, 0, 0.4); /* 黑色背景，透明度40% */-->
+<!--            z-index: -1; /* 确保遮罩层在背景图下方 */-->
+<!--        }-->
+
+<!--        /* 响应式导航栏设计 */-->
+<!--        nav {-->
+<!--            background-color: rgba(51, 51, 51, 0.7); /* 半透明背景 */-->
+<!--            overflow: hidden;-->
+<!--            position: fixed;-->
+<!--            width: 100%;-->
+<!--            top: 0;-->
+<!--            z-index: 100;-->
+<!--        }-->
+
+<!--        nav ul {-->
+<!--            list-style-type: none;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        nav li {-->
+<!--            display: inline-block;-->
+<!--        }-->
+
+<!--        nav a {-->
+<!--            display: block;-->
+<!--            color: white;-->
+<!--            text-align: center;-->
+<!--            padding: 14px 16px;-->
+<!--            text-decoration: none;-->
+<!--        }-->
+
+<!--        nav a:hover {-->
+<!--            background-color: #111;-->
+<!--        }-->
+
+<!--        /* 简化标题设计 */-->
+<!--        h1 {-->
+<!--            text-align: center;-->
+<!--            font-size: 3.5em; /* 调整字号 */-->
+<!--            margin-top: 100px;-->
+<!--            font-weight: bold; /* 让标题加粗 */-->
+<!--            color: #fff; /* 使用纯白色 */-->
+<!--            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 轻微的文字阴影 */-->
+<!--        }-->
+
+<!--        h2 {-->
+<!--            text-align: center;-->
+<!--            font-size: 1.8em;-->
+<!--            margin-top: 20px;-->
+<!--            color: #fff;-->
+<!--        }-->
+
+<!--        /* 按钮容器，设置水平排列 */-->
+<!--        .button-container {-->
+<!--            display: flex;-->
+<!--            justify-content: center; /* 中心对齐 */-->
+<!--            gap: 30px; /* 按钮之间的间隔 */-->
+<!--            margin-top: 50px; /* 按钮的顶部间距 */-->
+<!--        }-->
+
+<!--        /* 上传按钮设计 */-->
+<!--        .upload-button {-->
+<!--            display: flex;-->
+<!--            align-items: center; /* 垂直居中图片和文本 */-->
+<!--            justify-content: center; /* 水平居中 */-->
+<!--            width: 200px;-->
+<!--            height: 150px;-->
+<!--            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景色 */-->
+<!--            border: none;-->
+<!--            border-radius: 15px;-->
+<!--            cursor: pointer;-->
+<!--            transition: transform 0.3s ease, box-shadow 0.3s ease;-->
+<!--            color: white;-->
+<!--            font-size: 1.2em;-->
+<!--            font-weight: bold;-->
+<!--            text-align: center;-->
+<!--            padding: 10px;-->
+<!--        }-->
+
+<!--        .upload-button img {-->
+<!--            width: 50px; /* 设置图片大小 */-->
+<!--            height: 50px;-->
+<!--            margin-right: 10px; /* 图片和文本之间的间隔 */-->
+<!--        }-->
+
+<!--        .submit-button {-->
+<!--            display: block;-->
+<!--            width: 200px;-->
+<!--            height: 50px;-->
+<!--            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景色 */-->
+<!--            border: none;-->
+<!--            border-radius: 15px;-->
+<!--            cursor: pointer;-->
+<!--            transition: transform 0.3s ease, box-shadow 0.3s ease;-->
+<!--            color: white;-->
+<!--            font-size: 1.2em;-->
+<!--            font-weight: bold;-->
+<!--            margin-top: 20px;-->
+<!--            text-align: center;-->
+<!--            transform: translateX(15px); /* 通过transform右移10个像素 */-->
+<!--            position: relative;-->
+<!--            left: 42.5%;-->
+<!--        }-->
+
+
+<!--        .submit-button:hover {-->
+<!--            transform: scale(1.05);-->
+<!--            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);-->
+<!--        }-->
+
+<!--        .submit-button:active {-->
+<!--            transform: scale(0.95);-->
+<!--        }-->
+
+<!--        /* 悬浮和点击效果 */-->
+<!--        .upload-button:hover {-->
+<!--            transform: scale(1.1);-->
+<!--            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);-->
+<!--        }-->
+
+<!--        .upload-button:active {-->
+<!--            transform: scale(0.95);-->
+<!--        }-->
+
+
+<!--        /* 确保页面内容不被固定导航栏遮挡 */-->
+<!--        main {-->
+<!--            padding-top: 80px; /* 调整页面内容顶部间距 */-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <nav>-->
+<!--        <ul>-->
+<!--            <li><a href="{{ url_for('homepage')}}">首页</a></li>-->
+<!--            <li><a href="#">个人主页</a></li>-->
+<!--            <li><a href="#">vip增值服务</a></li>-->
+<!--            <li><a href="#">关于我们</a></li>-->
+<!--            <li><a href="#">联系我们</a></li>-->
+<!--            <li style="float: right;"><a href="#">登出</a></li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+<!--    <main>-->
+<!--        &lt;!&ndash; 主标题 &ndash;&gt;-->
+<!--        <h1>摔倒检测</h1>-->
+<!--        &lt;!&ndash; 副标题 &ndash;&gt;-->
+<!--        <h2>请上传您的图片</h2>-->
+<!--        &lt;!&ndash; 按钮容器 &ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="button-container">&ndash;&gt;-->
+<!--&lt;!&ndash;            &lt;!&ndash; 文件选择输入框的自定义按钮 &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" class="upload-form">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                <form method="post" enctype="multipart/form-data" class="upload-form">&ndash;&gt;-->
+<!--&lt;!&ndash;                &lt;!&ndash; 用label来模拟自定义的文件上传按钮 &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                <label for="file-upload" class="upload-button">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <img id="image-preview" src="../static/images/picture.png" alt="上传图片" style="max-width: 100%; height: auto;">&ndash;&gt;-->
+<!--&lt;!&ndash;                    上传图片&ndash;&gt;-->
+<!--&lt;!&ndash;                </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="file" id="file-upload" name="image" required style="display: none;" onchange="previewImage(event)">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                &lt;!&ndash; 提交按钮 &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                <a ></a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                <input type="submit" value="提交" class="submit-button" >&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;            </form>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <button class="submit-button" onclick="location.href='index1fight'">提交</button>&ndash;&gt;-->
+<!--        <div class="button-container">-->
+<!--            &lt;!&ndash; 文件选择输入框的自定义按钮 &ndash;&gt;-->
+<!--                <form action="{{ url_for('uploadfall') }}" method="post" enctype="multipart/form-data" class="upload-form">-->
+<!--                    &lt;!&ndash; 用label来模拟自定义的文件上传按钮 &ndash;&gt;-->
+<!--                    <label for="file-upload" class="upload-button">-->
+<!--                        <img id="image-preview" src="../static/images/picture.png" alt="上传图片" style="max-width: 100%; height: auto;">-->
+<!--                        上传图片-->
+<!--                    </label>-->
+<!--                    <input type="file" id="file-upload" name="image" required style="display: none;" onchange="previewImage(event)">-->
+
+<!--                    &lt;!&ndash; 提交按钮 &ndash;&gt;-->
+<!--                    <input type="submit" value="提交" class="submit-button">-->
+<!--                </form>-->
+<!--        </div>-->
+<!--    </main>-->
+<!--    <script>-->
+<!--    // 图片预览函数-->
+<!--    function previewImage(event) {-->
+<!--        var file = event.target.files[0]; // 获取文件-->
+<!--        if (file) {-->
+<!--            var reader = new FileReader();  // 创建FileReader实例-->
+<!--            reader.onload = function(e) {-->
+<!--                // 获取label元素和img元素-->
+<!--                var label = document.querySelector('label[for="file-upload"]');-->
+<!--                var imgElement = document.getElementById('image-preview');-->
+
+<!--                // 将label内的图片替换为上传的图片-->
+<!--                imgElement.src = e.target.result; // 用Base64编码的图片数据替换src-->
+<!--                imgElement.alt = "已上传图片";  // 可选：更改alt文本-->
+<!--            };-->
+<!--            reader.readAsDataURL(file); // 读取图片并生成Data URL-->
+<!--        } else {-->
+<!--            console.error("没有选择文件");-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+
+<!--</html>-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>图片上传</title>-->
+<!--    <style>-->
+<!--        nav {-->
+<!--            background-color: #333;-->
+<!--            overflow: hidden;-->
+<!--        }-->
+<!--        nav ul {-->
+<!--            list-style-type: none;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--        }-->
+<!--        nav li {-->
+<!--            float: left;-->
+<!--        }-->
+<!--        nav a {-->
+<!--            display: block;-->
+<!--            color: white;-->
+<!--            text-align: center;-->
+<!--            padding: 14px 16px;-->
+<!--            text-decoration: none;-->
+<!--        }-->
+<!--        nav a:hover {-->
+<!--            background-color: #111;-->
+<!--        }-->
+<!--        input[type=submit]{-->
+<!--            background-color: #333;-->
+<!--            color: #fff;-->
+<!--            border: none;-->
+<!--            padding: 10px 20px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        input[type=submit]:hover {-->
+<!--            background-color: #555;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <nav>-->
+<!--        <ul>-->
+<!--            <li><a href="#">首页</a></li>-->
+<!--            <li><a href="#">个人主页</a></li>-->
+<!--            <li><a href="#">vip增值服务</a></li>-->
+<!--            <li><a href="#">关于我们</a></li>-->
+<!--            <li><a href="#">联系我们</a></li>-->
+<!--            <li style="float: right;"><a href="#">登录</a></li>-->
+<!--            <li style="float: right;"><a href="#">注册</a></li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+<!--    <h1>图片上传</h1>-->
+<!--    <form action="{{ url_for('upload') }}" method="post" enctype=multipart/form-data>-->
+<!--          <input type=file name=image>-->
+<!--          <input type=submit value=上传图片>-->
+<!--    </form>-->
+<!--<a href="{{ url_for('index') }}">返回首页</a>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片上传</title>
+<!--    <script>-->
+<!--        window.onload = function (){-->
+<!--            setTimeout(function () {-->
+<!--                location.reload();-->
+<!--            }, 4000)-->
+<!--        }-->
+<!--    </script>-->
+    <style>
+        /* 设置背景图并淡化 */
+        body {
+            background-image: url('../static/images/shuaidao.jpg');
+            background-size: cover; /* 背景图覆盖整个页面 */
+            background-position: center; /* 背景图居中 */
+            font-family: 'Arial', sans-serif; /* 设置字体 */
+            color: white; /* 文字颜色 */
+            margin: 0;
+            padding: 0;
+            position: relative; /* 确保背景图在内容上方 */
+        }
+
+        /* 半透明遮罩层，确保完全覆盖背景 */
+        body::before {
+            content: '';
+            position: fixed; /* 使遮罩固定不动 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* 覆盖整个页面 */
+            background: rgba(0, 0, 0, 0.4); /* 黑色背景，透明度40% */
+            z-index: -1; /* 确保遮罩层在背景图下方 */
+        }
+
+        /* 响应式导航栏设计 */
+        nav {
+            background-color: rgba(51, 51, 51, 0.7); /* 半透明背景 */
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav li {
+            display: inline-block;
+        }
+
+        nav a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #111;
+        }
+
+        /* 简化标题设计 */
+        h1 {
+            text-align: center;
+            font-size: 3.5em; /* 调整字号 */
+            margin-top: 100px;
+            font-weight: bold; /* 让标题加粗 */
+            color: #fff; /* 使用纯白色 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 轻微的文字阴影 */
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 1.8em;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        /* 按钮容器，设置水平排列 */
+        .button-container {
+            display: flex;
+            justify-content: center; /* 中心对齐 */
+            gap: 30px; /* 按钮之间的间隔 */
+            margin-top: 50px; /* 按钮的顶部间距 */
+        }
+
+        /* 上传按钮设计 */
+        .upload-button {
+            display: flex;
+            align-items: center; /* 垂直居中图片和文本 */
+            justify-content: center; /* 水平居中 */
+            width: 200px;
+            height: 150px;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景色 */
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .upload-button img {
+            width: 50px; /* 设置图片大小 */
+            height: 50px;
+            margin-right: 10px; /* 图片和文本之间的间隔 */
+        }
+
+        .submit-button {
+            display: block;
+            width: 200px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景色 */
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            transform: translateX(15px); /* 通过transform右移10个像素 */
+        }
+
+
+        .submit-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-button:active {
+            transform: scale(0.95);
+        }
+
+        /* 悬浮和点击效果 */
+        .upload-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-button:active {
+            transform: scale(0.95);
+        }
+
+
+        /* 确保页面内容不被固定导航栏遮挡 */
+        main {
+            padding-top: 80px; /* 调整页面内容顶部间距 */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('homepage')}}">首页</a></li>
+            <li><a href="#">个人主页</a></li>
+            <li><a href="#">vip增值服务</a></li>
+            <li><a href="#">关于我们</a></li>
+            <li><a href="#">联系我们</a></li>
+            <li style="float: right;"><a href="#">登出</a></li>
+        </ul>
+    </nav>
+    <main>
+        <!-- 主标题 -->
+        <h1>摔倒检测</h1>
+        <!-- 副标题 -->
+        <h2>请上传您的图片</h2>
+        <!-- 按钮容器 -->
+        <div class="button-container">
+            <!-- 文件选择输入框的自定义按钮 -->
+            <form action="{{ url_for('uploadfall') }}" method="post" enctype="multipart/form-data" class="upload-form">
+                <!-- 用label来模拟自定义的文件上传按钮 -->
+                <label for="file-upload" class="upload-button">
+                    <img id="image-preview" src="../static/images/picture.png" alt="上传图片" style="max-width: 100%; height: auto;">
+                    上传图片
+                </label>
+                <input type="file" id="file-upload" name="image" required style="display: none;" onchange="previewImage(event)">
+
+                <!-- 提交按钮 -->
+                <input type="submit" value="提交" class="submit-button">
+            </form>
+        </div>
+    </main>
+    <script>
+    // 图片预览函数
+    function previewImage(event) {
+        var file = event.target.files[0]; // 获取文件
+        if (file) {
+            var reader = new FileReader();  // 创建FileReader实例
+            reader.onload = function(e) {
+                // 获取label元素和img元素
+                var label = document.querySelector('label[for="file-upload"]');
+                var imgElement = document.getElementById('image-preview');
+
+                // 将label内的图片替换为上传的图片
+                imgElement.src = e.target.result; // 用Base64编码的图片数据替换src
+                imgElement.alt = "已上传图片";  // 可选：更改alt文本
+            };
+            reader.readAsDataURL(file); // 读取图片并生成Data URL
+        } else {
+            console.error("没有选择文件");
+        }
+    }
+</script>
+</body>
+
+</html>
+

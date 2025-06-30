@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <link rel="stylesheet" href="../static/main.css">-->
+    <style>
+        /* 页面背景 */
+        body {
+            background-color: #121212; /* 暗黑色背景 */
+            color: #f0f0f0; /* 白色文字 */
+            font-family: Arial, sans-serif;
+        }
+
+        /* 背景遮罩层（已注释） */
+        /* body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 3;
+        } */
+
+        /* 中间容器 */
+        .Center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .LR {
+            text-align: center;
+            padding: 20px;
+            background-color: #1e1e1e; /* 深灰色背景 */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* 边框阴影 */
+        }
+
+        /* 图片 */
+        .LR img {
+            width: 700px;
+            height: 500px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* 标题 */
+        h2 {
+            color: #f0f0f0;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* 输入框 */
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #333; /* 暗色背景 */
+            border: 1px solid #555; /* 边框颜色 */
+            color: #f0f0f0; /* 文字颜色 */
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #4CAF50; /* 聚焦时的边框颜色 */
+            outline: none;
+        }
+
+        /* 提交按钮 */
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50; /* 绿色背景 */
+            border: none;
+            color: #fff; /* 白色文字 */
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049; /* 鼠标悬停时的颜色 */
+        }
+
+        /* 注册按钮 */
+        input[type="submit"]:nth-child(2) {
+            background-color: #007BFF; /* 蓝色背景 */
+        }
+
+        input[type="submit"]:nth-child(2):hover {
+            background-color: #0056b3; /* 鼠标悬停时的颜色 */
+        }
+
+        /* 预设用户名和密码 */
+        p {
+            font-size: 14px;
+            color: #a9a9a9;
+            margin-top: 20px;
+        }
+
+        /* 表单下方的空白 */
+        .LR form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="Center">
+        <div>
+            <img src="../static/images/cover.png" alt="Cover Image">
+            <div class="LR">
+                <h2>运动场所危险行为检测</h2>
+                <span th:text="${data}" style="color: red; font-size: 12px;"></span>
+                <form method="post" action="/login">
+                    <input type="text" name="username" placeholder="用户名" required/><br>
+                    <input type="password" name="password" placeholder="密码" required/><br>
+                    <input type="submit" value="登录">
+                </form>
+                <form method="get" action="/toRegister">
+                    <input type="submit" value="注册">
+                </form>
+                <p>预设用户名：ecnu&nbsp;&nbsp;&nbsp;密码：123456</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
