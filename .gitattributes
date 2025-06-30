@@ -1,0 +1,4 @@
+framework/static/model/*.pt filter=lfs diff=lfs merge=lfs -text
+framework/static/uploaded_videos/*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
