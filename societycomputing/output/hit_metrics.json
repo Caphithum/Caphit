@@ -1,0 +1,6 @@
+{
+  "TopK": 10,	
+  "hit_user_count": 17647,
+  "test_user_count": 42320,
+  "hit_rate": 0.417
+}

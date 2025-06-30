@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single User Recommendation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Single User Recommendation</h1>
+        <form method="POST">
+            <label for="gender">Gender:</label>
+            <input type="text" id="gender" name="gender" value="{{ request.form['gender'] if request.method == 'POST' else '' }}" required><br>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" value="{{ request.form['age'] if request.method == 'POST' else '' }}" required><br>
+
+            <label for="behavior">Behavior:</label>
+            <input type="text" id="behavior" name="behavior" value="{{ request.form['behavior'] if request.method == 'POST' else '' }}" required><br>
+
+            <button type="submit">Get Recommendations</button>
+            <label>返回top10结果</label>
+        </form>
+
+        {% if recommendations %}
+            <h3>Recommended Products:</h3>
+            <ul>
+                {% for item in recommendations %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
